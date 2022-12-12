@@ -286,10 +286,10 @@ namespace NotepadSharp
         }
         private void asPythonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.ProcessStartInfo proc = new System.Diagnostics.ProcessStartInfo();
+            ProcessStartInfo proc = new ProcessStartInfo();
             proc.FileName = @"C:\windows\system32\cmd.exe";
             proc.Arguments = "/k py " + this.Text;
-            System.Diagnostics.Process.Start(proc);
+            Process.Start(proc);
         }
 
         private void timeAndDateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -304,7 +304,7 @@ namespace NotepadSharp
             var sfile = this.Text;
             File.Delete(sfile);
             MainTextField.Text = "";
-            this.Text = "Nothing";
+            this.Text = "Untitled";
             MessageBox.Show("File removed!");
         }
 
