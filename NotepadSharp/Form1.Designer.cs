@@ -57,6 +57,8 @@
             this.addToStartMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addShortcutToStartMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.specialCharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateBoilerplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsThisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,8 +90,11 @@
             this.lblZoom = new System.Windows.Forms.Label();
             this.lblPos = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateBoilerplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveWithEncodingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uTF7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unicodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uTF32ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -334,6 +339,21 @@
             this.specialCharactersToolStripMenuItem.Text = "Special Characters";
             this.specialCharactersToolStripMenuItem.Click += new System.EventHandler(this.specialCharactersToolStripMenuItem_Click);
             // 
+            // insertToolStripMenuItem
+            // 
+            this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateBoilerplateToolStripMenuItem});
+            this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.insertToolStripMenuItem.Text = "Insert";
+            // 
+            // generateBoilerplateToolStripMenuItem
+            // 
+            this.generateBoilerplateToolStripMenuItem.Name = "generateBoilerplateToolStripMenuItem";
+            this.generateBoilerplateToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.generateBoilerplateToolStripMenuItem.Text = "Generate boilerplate";
+            this.generateBoilerplateToolStripMenuItem.Click += new System.EventHandler(this.generateBoilerplateToolStripMenuItem_Click);
+            // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -349,7 +369,7 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -357,22 +377,23 @@
             // 
             this.saveAsThisToolStripMenuItem.Name = "saveAsThisToolStripMenuItem";
             this.saveAsThisToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveAsThisToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.saveAsThisToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsThisToolStripMenuItem.Text = "Save as this";
             this.saveAsThisToolStripMenuItem.Click += new System.EventHandler(this.saveAsThisToolStripMenuItem_Click);
             // 
             // advancedToolStripMenuItem
             // 
             this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveWithMetadataToolStripMenuItem});
+            this.saveWithMetadataToolStripMenuItem,
+            this.saveWithEncodingToolStripMenuItem});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.advancedToolStripMenuItem.Text = "Advanced";
             // 
             // saveWithMetadataToolStripMenuItem
             // 
             this.saveWithMetadataToolStripMenuItem.Name = "saveWithMetadataToolStripMenuItem";
-            this.saveWithMetadataToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.saveWithMetadataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveWithMetadataToolStripMenuItem.Text = "Save with metadata";
             this.saveWithMetadataToolStripMenuItem.Click += new System.EventHandler(this.saveWithMetadataToolStripMenuItem_Click);
             // 
@@ -599,20 +620,44 @@
             this.panel1.Size = new System.Drawing.Size(1192, 17);
             this.panel1.TabIndex = 8;
             // 
-            // insertToolStripMenuItem
+            // saveWithEncodingToolStripMenuItem
             // 
-            this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateBoilerplateToolStripMenuItem});
-            this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.insertToolStripMenuItem.Text = "Insert";
+            this.saveWithEncodingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.uTF7ToolStripMenuItem,
+            this.uTF8ToolStripMenuItem,
+            this.unicodeToolStripMenuItem,
+            this.uTF32ToolStripMenuItem});
+            this.saveWithEncodingToolStripMenuItem.Name = "saveWithEncodingToolStripMenuItem";
+            this.saveWithEncodingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveWithEncodingToolStripMenuItem.Text = "Save With Encoding";
             // 
-            // generateBoilerplateToolStripMenuItem
+            // uTF7ToolStripMenuItem
             // 
-            this.generateBoilerplateToolStripMenuItem.Name = "generateBoilerplateToolStripMenuItem";
-            this.generateBoilerplateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.generateBoilerplateToolStripMenuItem.Text = "Generate boilerplate";
-            this.generateBoilerplateToolStripMenuItem.Click += new System.EventHandler(this.generateBoilerplateToolStripMenuItem_Click);
+            this.uTF7ToolStripMenuItem.Name = "uTF7ToolStripMenuItem";
+            this.uTF7ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uTF7ToolStripMenuItem.Text = "UTF7";
+            this.uTF7ToolStripMenuItem.Click += new System.EventHandler(this.uTF7ToolStripMenuItem_Click);
+            // 
+            // uTF8ToolStripMenuItem
+            // 
+            this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uTF8ToolStripMenuItem.Text = "UTF8";
+            this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
+            // 
+            // unicodeToolStripMenuItem
+            // 
+            this.unicodeToolStripMenuItem.Name = "unicodeToolStripMenuItem";
+            this.unicodeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unicodeToolStripMenuItem.Text = "Unicode";
+            this.unicodeToolStripMenuItem.Click += new System.EventHandler(this.unicodeToolStripMenuItem_Click);
+            // 
+            // uTF32ToolStripMenuItem
+            // 
+            this.uTF32ToolStripMenuItem.Name = "uTF32ToolStripMenuItem";
+            this.uTF32ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uTF32ToolStripMenuItem.Text = "UTF32";
+            this.uTF32ToolStripMenuItem.Click += new System.EventHandler(this.uTF32ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -700,6 +745,11 @@
         private System.Windows.Forms.ToolStripMenuItem specialCharactersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateBoilerplateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveWithEncodingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uTF7ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uTF8ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unicodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uTF32ToolStripMenuItem;
     }
 }
 

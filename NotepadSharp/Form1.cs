@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Text;
 
 namespace NotepadSharp
 {
@@ -121,6 +122,15 @@ namespace NotepadSharp
             MainTextField.Text = File.ReadAllText(path);
             this.Text = path;
             MessageBox.Show($"Vars {MainTextField.Text}, {Text}");
+        }
+        private static void saveEncoded(Encoding encoding, string filename)
+        {
+            Form1 f1 = (Form1)Application.OpenForms["Form1"];
+            RichTextBox tb = (RichTextBox)f1.Controls["MainTextField"];
+            StreamWriter streamWriter = new StreamWriter(filename, false, encoding);
+            streamWriter.WriteLine(tb.Text);
+            streamWriter.Close();
+            f1.Text = filename;
         }
         public void savefile()
         {
@@ -419,7 +429,6 @@ namespace NotepadSharp
             lblZoom.ForeColor = lblLength.ForeColor;
             lblPos.BackColor = lblLength.BackColor;
             lblPos.ForeColor = lblLength.ForeColor;
-
             themes = 1;
         }
 
@@ -727,6 +736,30 @@ namespace NotepadSharp
             Boilerplate bp = new Boilerplate();
             bp.TopMost = true;
             bp.Show();
+        }
+
+        private void uTF7ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string ans = Interaction.InputBox("Please specify the exact path to where you want to save the file (C:\\this.txt\\)", "Save with UTF7");
+            saveEncoded(Encoding.UTF7, ans);
+        }
+
+        private void uTF8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string ans = Interaction.InputBox("Please specify the exact path to where you want to save the file (C:\\this.txt\\)", "Save with UTF8");
+            saveEncoded(Encoding.UTF8, ans);
+        }
+
+        private void unicodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string ans = Interaction.InputBox("Please specify the exact path to where you want to save the file (C:\\this.txt\\)", "Save with Unicode");
+            saveEncoded(Encoding.Unicode, ans);
+        }
+
+        private void uTF32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string ans = Interaction.InputBox("Please specify the exact path to where you want to save the file (C:\\this.txt\\)", "Save with UTF32");
+            saveEncoded(Encoding.UTF32, ans);
         }
     }
 }   
