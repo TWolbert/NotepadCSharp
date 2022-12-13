@@ -721,5 +721,12 @@ namespace NotepadSharp
             sc.TopMost = true;
             sc.Show();
         }
+
+        private void generateBoilerplateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Boilerplate bp = new Boilerplate();
+            bp.TopMost = true;
+            bp.Show();
+        }
     }
 }   

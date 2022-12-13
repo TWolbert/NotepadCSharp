@@ -56,6 +56,7 @@
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToStartMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addShortcutToStartMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.specialCharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsThisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,8 @@
             this.lblZoom = new System.Windows.Forms.Label();
             this.lblPos = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.specialCharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateBoilerplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -213,7 +215,8 @@
             this.undoToolStripMenuItem,
             this.redoToolStripMenuItem,
             this.preferencesToolStripMenuItem,
-            this.specialCharactersToolStripMenuItem});
+            this.specialCharactersToolStripMenuItem,
+            this.insertToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(36, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -323,6 +326,13 @@
             this.addShortcutToStartMenuToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.addShortcutToStartMenuToolStripMenuItem.Text = "Add Shortcut to Start Menu";
             this.addShortcutToStartMenuToolStripMenuItem.Click += new System.EventHandler(this.addShortcutToStartMenuToolStripMenuItem_Click);
+            // 
+            // specialCharactersToolStripMenuItem
+            // 
+            this.specialCharactersToolStripMenuItem.Name = "specialCharactersToolStripMenuItem";
+            this.specialCharactersToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.specialCharactersToolStripMenuItem.Text = "Special Characters";
+            this.specialCharactersToolStripMenuItem.Click += new System.EventHandler(this.specialCharactersToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -589,12 +599,20 @@
             this.panel1.Size = new System.Drawing.Size(1192, 17);
             this.panel1.TabIndex = 8;
             // 
-            // specialCharactersToolStripMenuItem
+            // insertToolStripMenuItem
             // 
-            this.specialCharactersToolStripMenuItem.Name = "specialCharactersToolStripMenuItem";
-            this.specialCharactersToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.specialCharactersToolStripMenuItem.Text = "Special Characters";
-            this.specialCharactersToolStripMenuItem.Click += new System.EventHandler(this.specialCharactersToolStripMenuItem_Click);
+            this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateBoilerplateToolStripMenuItem});
+            this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
+            this.insertToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.insertToolStripMenuItem.Text = "Insert";
+            // 
+            // generateBoilerplateToolStripMenuItem
+            // 
+            this.generateBoilerplateToolStripMenuItem.Name = "generateBoilerplateToolStripMenuItem";
+            this.generateBoilerplateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateBoilerplateToolStripMenuItem.Text = "Generate boilerplate";
+            this.generateBoilerplateToolStripMenuItem.Click += new System.EventHandler(this.generateBoilerplateToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -680,6 +698,8 @@
         private System.Windows.Forms.ToolStripMenuItem addToStartMenuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addShortcutToStartMenuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialCharactersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateBoilerplateToolStripMenuItem;
     }
 }
 
