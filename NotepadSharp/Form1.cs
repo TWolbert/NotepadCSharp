@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -714,6 +713,13 @@ namespace NotepadSharp
                 return true;
             }
             return false;
+        }
+
+        private void specialCharactersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpecialCharacters sc = new SpecialCharacters();
+            sc.TopMost = true;
+            sc.Show();
         }
     }
 }   
