@@ -599,6 +599,7 @@ namespace NotepadSharp
 
         private void Zoomfactorchange_Tick(object sender, EventArgs e)
         {
+            currenttab.selectedtabpage = tabControl1.SelectedTab;
             RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             lblZoom.Text = "Zoomfactor: " + tb.ZoomFactor.ToString() + "x";
             if (Text.Contains(".py"))
