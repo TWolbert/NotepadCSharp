@@ -81,6 +81,18 @@ namespace NotepadSharp
                 {
                     rtb.TextChanged += syntaxhighlightcs;
                 }
+                if (Text.Contains(".html"))
+                {
+                    rtb.TextChanged += syntaxhighlightHTML;
+                }
+                if (Text.Contains(".cpp"))
+                {
+                    rtb.TextChanged += syntaxhighlightcpp;
+                }
+                if (Text.Contains(".js"))
+                {
+                    rtb.TextChanged += syntaxhighlightjs;
+                }
                 if (isPhoto())
                 {
                     ProcessStartInfo proc = new ProcessStartInfo();
@@ -197,6 +209,76 @@ namespace NotepadSharp
             // giving back the focus
             tb.Focus();
         }
+        void syntaxhighlightHTML(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(!--|!DOCTYPE|a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|i|iframe|img|input|ins|kbd|label|legend|li|link|main|map|mark|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr|/a|/abbr|/acronym|/address|/applet|/area|/article|/aside|/audio|/b|/base|/basefont|/bdi|/bdo|/big|/blockquote|/body|/br|/button|/canvas|/caption|/center|/cite|/code|/col|/colgroup|/data|/datalist|/dd|/del|/details|/dfn|/dialog|/dir|/div|/dl|/dt|/em|/embed|/fieldset|/figcaption|/figure|/font|/footer|/form|/frame|/frameset|/h1|/h2|/h3|/h4|/h5|/h6|/head|/header|/hr|/html|/i|/iframe|/img|/input|/ins|/kbd|/label|/legend|/li|/link|/main|/map|/mark|/meta|/meter|/nav|/noframes|/noscript|/object|/ol|/optgroup|/option|/output|/p|/param|/picture|/pre|/progress|/q|/rp|/rt|/ruby|/s|/samp|/script|/section|/select|/small|/source|/span|/strike|/strong|/style|/sub|/summary|/sup|/svg|/table|/tbody|/td|/template|/textarea|/tfoot|/th|/thead|/time|/title|/tr|/track|/tt|/u|/ul|/var|/video|/wbr)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(ugWEFIUGWEGFTUHUEWSRGUETRYEUTuitf)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"\b(hfjhlkuydsdfkljyt)\b";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = @"\b(kuyguyrgKYUtfuy)\b";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
+        }
         void syntaxhighlightpy(object sender, EventArgs e)
         {
             RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
@@ -206,6 +288,146 @@ namespace NotepadSharp
 
             // getting types/classes from the text 
             string types = @"\b(if|elif|else|import)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
+        }
+        void syntaxhighlightjs(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(abstract|arguments|await|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(document|body|sessionStorage|localStorage|console|innerHTML|style|outerHTML|toString)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
+        }
+        void syntaxhighlightcpp(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(alignas|alignof|and|and_eq|asm|atomic_cancel|atomic_commit|atomic_noexcept|auto|bitand|bool|break|case|catch|char|char8_t|char16_t|char32_t|class|compl|concept|const|consteval|constexpr|constinit|const_cast|continue|co_await|co_return|co_yield|decltype|default|delete|do|double|dynamic_cast|else|enum|explicit|export|extern|false|float|for|friend|goto|if|inline|int|long|mutable|namespace|new|noexcept|not|not_eq|nullptr|operator|or|or_eq|private|protected|public|reflexpr|register|reinterpret_cast|requires|return|short|signed|sizeof|static|static_assert|static_cast|struct|switch|synchronized|template|this|thread_local|throw|true|try|typedef|typeid|typename|union|unsigned|using||virtual|void|volatile|wchar_t|while|xor|xor_eq)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(cout|std::|cin|include)\b";
             MatchCollection typeMatches = Regex.Matches(tb.Text, types);
 
             // getting comments (inline or multiline)
