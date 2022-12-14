@@ -875,5 +875,12 @@ namespace NotepadSharp
         {
 
         }
+
+        private void setFontTypeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Font_selector bp = new Font_selector();
+            bp.TopMost = true;
+            bp.Show();
+        }
     }
 }   

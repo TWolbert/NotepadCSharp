@@ -83,6 +83,7 @@
             this.wordwrapoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alwaysOnTopoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadAppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeCurrentTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asPythonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asHTMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +98,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.MainTextField = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.removeCurrentTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setFontTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -178,35 +179,35 @@
             // tsmR1
             // 
             this.tsmR1.Name = "tsmR1";
-            this.tsmR1.Size = new System.Drawing.Size(180, 22);
+            this.tsmR1.Size = new System.Drawing.Size(80, 22);
             this.tsmR1.Text = "1";
             this.tsmR1.Click += new System.EventHandler(this.openrecentfile);
             // 
             // tsmR2
             // 
             this.tsmR2.Name = "tsmR2";
-            this.tsmR2.Size = new System.Drawing.Size(180, 22);
+            this.tsmR2.Size = new System.Drawing.Size(80, 22);
             this.tsmR2.Text = "2";
             this.tsmR2.Click += new System.EventHandler(this.openrecentfile);
             // 
             // tsmR3
             // 
             this.tsmR3.Name = "tsmR3";
-            this.tsmR3.Size = new System.Drawing.Size(180, 22);
+            this.tsmR3.Size = new System.Drawing.Size(80, 22);
             this.tsmR3.Text = "3";
             this.tsmR3.Click += new System.EventHandler(this.Form1_Shown);
             // 
             // tsmR4
             // 
             this.tsmR4.Name = "tsmR4";
-            this.tsmR4.Size = new System.Drawing.Size(180, 22);
+            this.tsmR4.Size = new System.Drawing.Size(80, 22);
             this.tsmR4.Text = "4";
             this.tsmR4.Click += new System.EventHandler(this.openrecentfile);
             // 
             // tsmR5
             // 
             this.tsmR5.Name = "tsmR5";
-            this.tsmR5.Size = new System.Drawing.Size(180, 22);
+            this.tsmR5.Size = new System.Drawing.Size(80, 22);
             this.tsmR5.Text = "5";
             this.tsmR5.Click += new System.EventHandler(this.openrecentfile);
             // 
@@ -277,7 +278,7 @@
             // replaceInSelectionToolStripMenuItem
             // 
             this.replaceInSelectionToolStripMenuItem.Name = "replaceInSelectionToolStripMenuItem";
-            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.replaceInSelectionToolStripMenuItem.Text = "Replace in selection";
             this.replaceInSelectionToolStripMenuItem.Click += new System.EventHandler(this.replaceInSelectionToolStripMenuItem_Click);
             // 
@@ -285,7 +286,7 @@
             // 
             this.replaceAllToolStripMenuItem.Name = "replaceAllToolStripMenuItem";
             this.replaceAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.replaceAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.replaceAllToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.replaceAllToolStripMenuItem.Text = "Replace all";
             this.replaceAllToolStripMenuItem.Click += new System.EventHandler(this.replaceAllToolStripMenuItem_Click);
             // 
@@ -371,7 +372,7 @@
             // generateBoilerplateToolStripMenuItem
             // 
             this.generateBoilerplateToolStripMenuItem.Name = "generateBoilerplateToolStripMenuItem";
-            this.generateBoilerplateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateBoilerplateToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.generateBoilerplateToolStripMenuItem.Text = "Generate boilerplate";
             this.generateBoilerplateToolStripMenuItem.Click += new System.EventHandler(this.generateBoilerplateToolStripMenuItem_Click);
             // 
@@ -416,7 +417,7 @@
             // saveWithMetadataToolStripMenuItem
             // 
             this.saveWithMetadataToolStripMenuItem.Name = "saveWithMetadataToolStripMenuItem";
-            this.saveWithMetadataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveWithMetadataToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.saveWithMetadataToolStripMenuItem.Text = "Save with metadata";
             this.saveWithMetadataToolStripMenuItem.Click += new System.EventHandler(this.saveWithMetadataToolStripMenuItem_Click);
             // 
@@ -428,7 +429,7 @@
             this.unicodeToolStripMenuItem,
             this.uTF32ToolStripMenuItem});
             this.saveWithEncodingToolStripMenuItem.Name = "saveWithEncodingToolStripMenuItem";
-            this.saveWithEncodingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveWithEncodingToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.saveWithEncodingToolStripMenuItem.Text = "Save With Encoding";
             // 
             // uTF7ToolStripMenuItem
@@ -480,11 +481,12 @@
             this.toolStripMenuItem2,
             this.pxToolStripMenuItem1,
             this.pxToolStripMenuItem2,
-            this.pxToolStripMenuItem3});
+            this.pxToolStripMenuItem3,
+            this.setFontTypeToolStripMenuItem});
             this.fontsizeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fontsizeToolStripMenuItem.Image")));
             this.fontsizeToolStripMenuItem.Name = "fontsizeToolStripMenuItem";
             this.fontsizeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.fontsizeToolStripMenuItem.Text = "Font-size";
+            this.fontsizeToolStripMenuItem.Text = "Fonts";
             // 
             // toolStripMenuItem1
             // 
@@ -577,6 +579,15 @@
             this.reloadAppToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.reloadAppToolStripMenuItem.Text = "Reload app";
             this.reloadAppToolStripMenuItem.Click += new System.EventHandler(this.reloadAppToolStripMenuItem_Click);
+            // 
+            // removeCurrentTabToolStripMenuItem
+            // 
+            this.removeCurrentTabToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeCurrentTabToolStripMenuItem.Image")));
+            this.removeCurrentTabToolStripMenuItem.Name = "removeCurrentTabToolStripMenuItem";
+            this.removeCurrentTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.removeCurrentTabToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.removeCurrentTabToolStripMenuItem.Text = "Remove current tab";
+            this.removeCurrentTabToolStripMenuItem.Click += new System.EventHandler(this.removeCurrentTabToolStripMenuItem_Click);
             // 
             // runToolStripMenuItem
             // 
@@ -718,14 +729,12 @@
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
-            // removeCurrentTabToolStripMenuItem
+            // setFontTypeToolStripMenuItem
             // 
-            this.removeCurrentTabToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeCurrentTabToolStripMenuItem.Image")));
-            this.removeCurrentTabToolStripMenuItem.Name = "removeCurrentTabToolStripMenuItem";
-            this.removeCurrentTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.removeCurrentTabToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.removeCurrentTabToolStripMenuItem.Text = "Remove current tab";
-            this.removeCurrentTabToolStripMenuItem.Click += new System.EventHandler(this.removeCurrentTabToolStripMenuItem_Click);
+            this.setFontTypeToolStripMenuItem.Name = "setFontTypeToolStripMenuItem";
+            this.setFontTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setFontTypeToolStripMenuItem.Text = "Set font type";
+            this.setFontTypeToolStripMenuItem.Click += new System.EventHandler(this.setFontTypeToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -823,6 +832,7 @@
         private System.Windows.Forms.RichTextBox MainTextField;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ToolStripMenuItem removeCurrentTabToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setFontTypeToolStripMenuItem;
     }
 }
 

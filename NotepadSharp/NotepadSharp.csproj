@@ -65,6 +65,12 @@
     <Compile Include="Boilerplate.Designer.cs">
       <DependentUpon>Boilerplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fonts selector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fonts selector.Designer.cs">
+      <DependentUpon>Fonts selector.cs</DependentUpon>
+    </Compile>
     <Compile Include="SpecialCharacters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +103,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Fonts selector.resx">
+      <DependentUpon>Fonts selector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
