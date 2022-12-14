@@ -93,6 +93,14 @@ namespace NotepadSharp
                 {
                     rtb.TextChanged += syntaxhighlightjs;
                 }
+                if (Text.Contains(".asm"))
+                {
+                    rtb.TextChanged += syntaxhighlightasm;
+                }
+                if (Text.Contains(".c") && !Text.Contains(".cpp"))
+                {
+                    rtb.TextChanged += syntaxhighlightc;
+                }
                 if (isPhoto())
                 {
                     ProcessStartInfo proc = new ProcessStartInfo();
@@ -138,6 +146,146 @@ namespace NotepadSharp
             {
                 tabControl1.TabPages.RemoveAt(0);
             }
+        }
+        void syntaxhighlightasm(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(lds|les|lfs|lgs|lss|pop|push|in|ins|out|outs|lahf|sahf|popf|pushf|cmc|clc|stc|cli|sti|cld|std|add|adc|sub|sbb|cmp|inc|dec|test|sal|shl|sar|shr|shld|shrd|not|neg|bound|and|or|xor|imul|mul|div|idiv|cbtw|cwtl|cwtd|cltd|daa|das|aaa|aas|aam|aad|wait|fwait|movs|cmps|stos|lods|scas|xlat|rep|repnz|repz|lcall|call|ret|lret|enter|leave|jcxz|loop|loopnz|loopz|jmp|ljmp|int|into|iret|sldt|str|lldt|ltr|verr|verw|sgdt|sidt|lgdt|lidt|smsw|lmsw|lar|lsl|clts|arpl|bsf|bsr|bt|btc|btr|bts|cmpxchg|fsin|fcos|fsincos|fld|fldcw|fldenv|fprem|fucom|fucomp|fucompp|lea|mov|movw|movsx|movzb|popa|pusha|rcl|rcr|rol|ror|setcc|bswap|xadd|xchg|wbinvd|invd|invlpg|lock|nop|hlt|fld|fst|fstp|fxch|fild|fist|fistp|fbld|fbstp|fadd|faddp|fiadd|fsub|fsubp|fsubr|fsubrp|fisubrp|fisubr|fmul|fmulp|fimul|fdiv|fdivp|fdivr|fdivrp|fidiv|fidivr|fsqrt|fscale|fprem|frndint|fxtract|fabs|fchs|fcom|fcomp|fcompp|ficom|ficomp|fyl2x|fyl2xp1|fldl2e|fldl2t|fldlg2|fldln2|fldpi|fldz|finit|fnint|fnop|fsave|fnsave|fstew|fnstew|fstenv|fnstenv|fstsw|fnstsw|frstor|fwait|wait|fclex|fnclex|fdecstp|ffree|fincstp)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(Suffering)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+            
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
+        }
+        void syntaxhighlightc(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(exit|fptr|fopen|fprintf|printf|scanf|fclose|auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(main|include|NULL)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
         }
         void syntaxhighlightcs(object sender, EventArgs e)
         {
@@ -1078,6 +1226,37 @@ namespace NotepadSharp
                     tsm[i].Text = lines[i];
                 }
             }
+            wait(50);
+            var rtb = tb;
+            if (currenttab.selectedtabpage.Text.Contains(".py"))
+            {
+                rtb.TextChanged += syntaxhighlightpy;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".cs"))
+            {
+                rtb.TextChanged += syntaxhighlightcs;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".html"))
+            {
+                rtb.TextChanged += syntaxhighlightHTML;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".cpp"))
+            {
+                rtb.TextChanged += syntaxhighlightcpp;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".js"))
+            {
+                rtb.TextChanged += syntaxhighlightjs;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".asm"))
+            {
+                rtb.TextChanged += syntaxhighlightasm;
+            }
+            if (currenttab.selectedtabpage.Text.Contains(".c") && !currenttab.selectedtabpage.Text.Contains(".cpp"))
+            {
+                rtb.TextChanged += syntaxhighlightc;
+            }
+            rtb.Text += "";
         }
 
         private void MainTextField_SelectionChanged(object sender, EventArgs e)
