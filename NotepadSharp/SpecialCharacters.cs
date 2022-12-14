@@ -22,7 +22,9 @@ namespace NotepadSharp
             Control clicked = sender as Control;
             char typedchar = char.Parse(clicked.Text);
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            RichTextBox tb = (RichTextBox)f1.Controls["MainTextField"];
+            // RichTextBox tb = (RichTextBox)f1.Controls["MainTextField"];
+            TabPage indexofselected = Form1.currenttab.selectedtabpage;
+            RichTextBox tb = (RichTextBox)indexofselected.Controls["MainTextField"];
             var start = tb.SelectionStart; // use this if you want to keep cursor where it was
             start += 1;   // use this if want to move cursor to the end of pasted text
             tb.Text = tb.Text.Insert(tb.SelectionStart, typedchar.ToString());

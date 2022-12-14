@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.VisualBasic;
 using DSOFile;
+using static NotepadSharp.Form1;
 
 namespace NotepadSharp
 {
@@ -25,7 +26,8 @@ namespace NotepadSharp
         }
         public static void swm(RichTextBox MainTextField)
         {
-            maintext.textbox = MainTextField;
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            maintext.textbox = tb;
             Form newthis = new MetaDataSaveF();
             newthis.Show();
         }

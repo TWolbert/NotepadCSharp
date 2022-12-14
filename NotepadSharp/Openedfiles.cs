@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static NotepadSharp.Form1;
 
 namespace NotepadSharp
 {
@@ -63,10 +64,11 @@ namespace NotepadSharp
         {
             string textofselect = lbFiles.Items[lbFiles.SelectedIndex].ToString();
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            RichTextBox tb = (RichTextBox)f1.Controls["MainTextField"];
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             f1.savefile();
             tb.Text = File.ReadAllText(textofselect);
             f1.Text = textofselect;
+            currenttab.selectedtabpage.Text = f1.Text;
         }
 
         private void button1_Click(object sender, EventArgs e)
