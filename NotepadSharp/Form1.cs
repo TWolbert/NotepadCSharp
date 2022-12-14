@@ -73,7 +73,14 @@ namespace NotepadSharp
             {
                 this.Text = filePath;
                 tp.Text = filePath;
-
+                if (Text.Contains(".py"))
+                {
+                    rtb.TextChanged += syntaxhighlightpy;
+                }
+                if (Text.Contains(".cs"))
+                {
+                    rtb.TextChanged += syntaxhighlightcs;
+                }
                 if (isPhoto())
                 {
                     ProcessStartInfo proc = new ProcessStartInfo();
@@ -119,6 +126,146 @@ namespace NotepadSharp
             {
                 tabControl1.TabPages.RemoveAt(0);
             }
+        }
+        void syntaxhighlightcs(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(public|private|partial|static|namespace|class|using|void|foreach|in|abstract|as|base|bool|break|byte|case|catch|char|checked|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|goto|if|implicit|in|int|interface|internal|is|lock|long|new|null|object|operator|out|override|params|protected|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(Console|Form)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
+        }
+        void syntaxhighlightpy(object sender, EventArgs e)
+        {
+            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // getting keywords/functions
+            string keywords = @"\b(and|as|assert|break|class|continue|def|del|except|False|finally|for|from|global|in|is|lambda|None|nonlocal|not|or|pass|raise|return|True|try|while|with|yield)\b";
+            MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
+
+            // getting types/classes from the text 
+            string types = @"\b(if|elif|else|import)\b";
+            MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            // getting comments (inline or multiline)
+            string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
+            MatchCollection commentMatches = Regex.Matches(tb.Text, comments, RegexOptions.Multiline);
+
+            // getting strings
+            string strings = "\".+?\"";
+            MatchCollection stringMatches = Regex.Matches(tb.Text, strings);
+
+            // saving the original caret position + forecolor
+            int originalIndex = tb.SelectionStart;
+            int originalLength = tb.SelectionLength;
+            Color originalColor = Color.Empty;
+
+
+            // MANDATORY - focuses a label before highlighting (avoids blinking)
+            MenuStrip.Focus();
+
+            // removes any previous highlighting (so modified words won't remain highlighted)
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            tb.SelectionColor = originalColor;
+
+            // scanning...
+            foreach (Match m in keywordMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Blue;
+            }
+
+            foreach (Match m in typeMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkCyan;
+            }
+
+            foreach (Match m in commentMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in stringMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.Brown;
+            }
+
+            // restoring the original colors, for further writing
+            tb.SelectionStart = originalIndex;
+            tb.SelectionLength = originalLength;
+            tb.SelectionColor = originalColor;
+
+            // giving back the focus
+            tb.Focus();
         }
         void writefiletotb(string fileContent, RichTextBox rtb, TabPage tb)
         {
