@@ -99,6 +99,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.MainTextField = new System.Windows.Forms.RichTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.sctb = new EasyScintilla.SimpleEditor();
             this.MenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -694,6 +695,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.sctb);
             this.tabPage1.Controls.Add(this.MainTextField);
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
@@ -734,6 +736,15 @@
             this.tabControl1.TabIndex = 9;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
+            // 
+            // sctb
+            // 
+            this.sctb.Location = new System.Drawing.Point(246, 157);
+            this.sctb.Name = "sctb";
+            this.sctb.Size = new System.Drawing.Size(200, 100);
+            this.sctb.Styler = null;
+            this.sctb.TabIndex = 4;
+            this.sctb.Text = "simpleEditor1";
             // 
             // Form1
             // 
@@ -832,6 +843,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ToolStripMenuItem removeCurrentTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setFontTypeToolStripMenuItem;
+        private EasyScintilla.SimpleEditor sctb;
     }
 }
 

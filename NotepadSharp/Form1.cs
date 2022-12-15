@@ -407,8 +407,8 @@ namespace NotepadSharp
             // scanning...
             foreach (Match m in keywordMatches)
             {
-                tb.SelectionStart = m.Index;
-                tb.SelectionLength = m.Length;
+                tb.SelectionStart = m.Index - 1;
+                tb.SelectionLength = m.Length + 1;
                 tb.SelectionColor = Color.Blue;
             }
 
@@ -519,8 +519,15 @@ namespace NotepadSharp
             MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
 
             // getting types/classes from the text 
-            string types = @"\b(document|body|sessionStorage|localStorage|console|innerHTML|style|outerHTML|toString)\b";
+            string types = @"\b(document|body|sessionStorage|localStorage|console|innerHTML|style|outerHTML|toString|Object|window|function|parseInt|Math)\b";
             MatchCollection typeMatches = Regex.Matches(tb.Text, types);
+
+            //Getting type vals for js
+            string var = @"\b(var|let|const)\b";
+            MatchCollection varMatches = Regex.Matches(tb.Text, var);
+
+            string subkeys = @"\b(setItem|getItem|removeItem|keys|onload|length|getElementById|replace|random|round|log|remove)\b";
+            MatchCollection subKeysMatches = Regex.Matches(tb.Text, subkeys);
 
             // getting comments (inline or multiline)
             string comments = @"(\/\/.+?$|\/\*.+?\*\/)";
@@ -559,11 +566,25 @@ namespace NotepadSharp
                 tb.SelectionColor = Color.DarkCyan;
             }
 
+            foreach (Match m in varMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkRed;
+            }
+
             foreach (Match m in commentMatches)
             {
                 tb.SelectionStart = m.Index;
                 tb.SelectionLength = m.Length;
                 tb.SelectionColor = Color.Green;
+            }
+
+            foreach (Match m in subKeysMatches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = Color.DarkSlateBlue;
             }
 
             foreach (Match m in stringMatches)
@@ -1219,6 +1240,8 @@ namespace NotepadSharp
 
         private void Form1_Shown(object sender, EventArgs e)
         {
+            sctb.Enabled = true;
+            sctb.LexerLanguage = "Python";
             RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             StartupScripts.firsttime(tb);
             StartupScripts.zoomfactor(tb);
