@@ -7,14 +7,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotepadSharp", "NotepadShar
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ARM|Any CPU = ARM|Any CPU
+		ARM|ARM64 = ARM|ARM64
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM64 = Debug|ARM64
 		Release|Any CPU = Release|Any CPU
+		Release|ARM64 = Release|ARM64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{496207DD-262C-41AD-828F-1536E78C661C}.ARM|Any CPU.ActiveCfg = ARM|ARM64
+		{496207DD-262C-41AD-828F-1536E78C661C}.ARM|Any CPU.Build.0 = ARM|ARM64
+		{496207DD-262C-41AD-828F-1536E78C661C}.ARM|ARM64.ActiveCfg = ARM|ARM64
+		{496207DD-262C-41AD-828F-1536E78C661C}.ARM|ARM64.Build.0 = ARM|ARM64
 		{496207DD-262C-41AD-828F-1536E78C661C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{496207DD-262C-41AD-828F-1536E78C661C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496207DD-262C-41AD-828F-1536E78C661C}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{496207DD-262C-41AD-828F-1536E78C661C}.Debug|ARM64.Build.0 = Debug|Any CPU
 		{496207DD-262C-41AD-828F-1536E78C661C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{496207DD-262C-41AD-828F-1536E78C661C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496207DD-262C-41AD-828F-1536E78C661C}.Release|ARM64.ActiveCfg = Release|ARM64
+		{496207DD-262C-41AD-828F-1536E78C661C}.Release|ARM64.Build.0 = Release|ARM64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

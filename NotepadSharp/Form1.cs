@@ -45,6 +45,7 @@ namespace NotepadSharp
             rtb.AllowDrop = true;
             rtb.BackColor = backcolor; rtb.ForeColor = forecolor;
             rtb.TextChanged += (this.OnTextChanged);
+            rtb.TextChanged += MainTextField_TextChanged_1;
             rtb.WrapMode = WrapMode.None;
             rtb.IndentationGuides = IndentView.LookBoth;
             tabControl1.SelectedIndex = tabControl1.TabPages.IndexOf(tp);
@@ -683,7 +684,7 @@ namespace NotepadSharp
             streamWriter.Close();
             f1.Text = filename;
         }
-        public void savefile()
+        public async void savefile()
         {
             Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (this.Text.Length != 0 && this.Text.Contains("\\"))
@@ -705,10 +706,9 @@ namespace NotepadSharp
 
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        if ((myStream = saveFileDialog1.OpenFile()) != null)
+                        using (StreamWriter writer = File.CreateText(saveFileDialog1.FileName))
                         {
-                            myStream.Close();
-                            File.WriteAllText(saveFileDialog1.FileName, tb.Text);
+                            await writer.WriteAsync("Example text as string");
                         }
                     }
                     this.Text = saveFileDialog1.FileName;
@@ -1182,6 +1182,7 @@ namespace NotepadSharp
             rtb.AllowDrop = true;
             rtb.BackColor = backcolor; rtb.ForeColor = forecolor;
             rtb.TextChanged += (this.OnTextChanged);
+            rtb.TextChanged += MainTextField_TextChanged_1;
             rtb.WrapMode = WrapMode.None;
             rtb.IndentationGuides = IndentView.LookBoth;
             tabControl1.SelectedIndex = tabControl1.TabPages.IndexOf(tp);

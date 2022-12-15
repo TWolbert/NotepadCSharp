@@ -288,7 +288,7 @@
             // 
             this.replaceInSelectionToolStripMenuItem.Enabled = false;
             this.replaceInSelectionToolStripMenuItem.Name = "replaceInSelectionToolStripMenuItem";
-            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.replaceInSelectionToolStripMenuItem.Text = "Replace in selection";
             this.replaceInSelectionToolStripMenuItem.Click += new System.EventHandler(this.replaceInSelectionToolStripMenuItem_Click);
             // 
@@ -503,7 +503,7 @@
             // 
             this.toolStripMenuItem1.Enabled = false;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "8px";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -511,7 +511,7 @@
             // 
             this.pxToolStripMenuItem.Enabled = false;
             this.pxToolStripMenuItem.Name = "pxToolStripMenuItem";
-            this.pxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pxToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.pxToolStripMenuItem.Text = "16px";
             this.pxToolStripMenuItem.Click += new System.EventHandler(this.pxToolStripMenuItem_Click);
             // 
@@ -519,7 +519,7 @@
             // 
             this.toolStripMenuItem2.Enabled = false;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem2.Text = "18px";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -527,7 +527,7 @@
             // 
             this.pxToolStripMenuItem1.Enabled = false;
             this.pxToolStripMenuItem1.Name = "pxToolStripMenuItem1";
-            this.pxToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.pxToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.pxToolStripMenuItem1.Text = "20px";
             this.pxToolStripMenuItem1.Click += new System.EventHandler(this.pxToolStripMenuItem1_Click);
             // 
@@ -535,7 +535,7 @@
             // 
             this.pxToolStripMenuItem2.Enabled = false;
             this.pxToolStripMenuItem2.Name = "pxToolStripMenuItem2";
-            this.pxToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.pxToolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
             this.pxToolStripMenuItem2.Text = "22px";
             this.pxToolStripMenuItem2.Click += new System.EventHandler(this.pxToolStripMenuItem2_Click);
             // 
@@ -543,7 +543,7 @@
             // 
             this.pxToolStripMenuItem3.Enabled = false;
             this.pxToolStripMenuItem3.Name = "pxToolStripMenuItem3";
-            this.pxToolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.pxToolStripMenuItem3.Size = new System.Drawing.Size(136, 22);
             this.pxToolStripMenuItem3.Text = "24px";
             this.pxToolStripMenuItem3.Click += new System.EventHandler(this.pxToolStripMenuItem3_Click);
             // 
@@ -551,7 +551,7 @@
             // 
             this.setFontTypeToolStripMenuItem.Enabled = false;
             this.setFontTypeToolStripMenuItem.Name = "setFontTypeToolStripMenuItem";
-            this.setFontTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setFontTypeToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.setFontTypeToolStripMenuItem.Text = "Set font type";
             this.setFontTypeToolStripMenuItem.Click += new System.EventHandler(this.setFontTypeToolStripMenuItem_Click);
             // 
@@ -734,6 +734,7 @@
             this.MainTextField.Size = new System.Drawing.Size(1178, 502);
             this.MainTextField.TabIndex = 4;
             this.MainTextField.UseTabs = true;
+            this.MainTextField.TextChanged += new System.EventHandler(this.MainTextField_TextChanged_1);
             // 
             // tabControl1
             // 
