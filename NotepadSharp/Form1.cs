@@ -91,13 +91,13 @@ namespace NotepadSharp
                 }
                 if (Text.Contains(".js"))
                 {
-                    rtb.TextChanged += syntaxhighlightjs;
+                    rtb.TextChanged += syntaxhighlightcs;
                 }
                 if (Text.Contains(".asm"))
                 {
                     rtb.TextChanged += syntaxhighlightasm;
                 }
-                if (Text.Contains(".c") && !Text.Contains(".cpp"))
+                if (Text.Contains(".c") && !Text.Contains(".cpp") && !Text.Contains(".cs"))
                 {
                     rtb.TextChanged += syntaxhighlightc;
                 }
@@ -291,11 +291,11 @@ namespace NotepadSharp
         {
             RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             // getting keywords/functions
-            string keywords = @"\b(public|private|partial|static|namespace|class|using|void|foreach|in|abstract|as|base|bool|break|byte|case|catch|char|checked|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|goto|if|implicit|in|int|interface|internal|is|lock|long|new|null|object|operator|out|override|params|protected|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\b";
+            string keywords = @"\b(public|private|partial|static|class|using|void|foreach|in|abstract|as|base|bool|break|byte|case|catch|char|checked|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|goto|if|implicit|in|int|interface|internal|is|lock|long|new|null|object|operator|out|override|params|protected|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\b";
             MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
 
             // getting types/classes from the text 
-            string types = @"\b(Console|Form)\b";
+            string types = @"\b(Console|Form|namespace)\b";
             MatchCollection typeMatches = Regex.Matches(tb.Text, types);
 
             // getting comments (inline or multiline)
@@ -431,7 +431,7 @@ namespace NotepadSharp
         {
             RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             // getting keywords/functions
-            string keywords = @"\b(and|as|assert|break|class|continue|def|del|except|False|finally|for|from|global|in|is|lambda|None|nonlocal|not|or|pass|raise|return|True|try|while|with|yield)\b";
+            string keywords = @"\b(print|input|and|as|assert|break|class|continue|def|del|except|False|finally|for|from|global|in|is|lambda|None|nonlocal|not|or|pass|raise|return|True|try|while|with|yield)\b";
             MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
 
             // getting types/classes from the text 
