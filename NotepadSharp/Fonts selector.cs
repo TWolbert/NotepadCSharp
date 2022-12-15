@@ -1,4 +1,5 @@
 ﻿using IWshRuntimeLibrary;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,11 +36,12 @@ namespace NotepadSharp
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string textofselect = listBox1.Items[listBox1.SelectedIndex].ToString();
+            // Temp out of use, will reimplement later.
+            /*string textofselect = listBox1.Items[listBox1.SelectedIndex].ToString();
 
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            tb.Font = new Font(textofselect, tb.Font.Size, tb.Font.Style);
+            tb.Styles[Style.Cpp.Default].Font = textofselect;*/
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

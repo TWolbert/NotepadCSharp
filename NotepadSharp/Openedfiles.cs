@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,7 +65,7 @@ namespace NotepadSharp
         {
             string textofselect = lbFiles.Items[lbFiles.SelectedIndex].ToString();
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             f1.savefile();
             tb.Text = File.ReadAllText(textofselect);
             f1.Text = textofselect;

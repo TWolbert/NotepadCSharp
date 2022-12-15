@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,7 @@ namespace NotepadSharp
                 return "Failed";
             }
         }
-        public static void cursorpos(RichTextBox MainTextField)
+        public static void cursorpos(Scintilla MainTextField)
         {
             UserSettings settings = new UserSettings();
             if (settings.Cursorpos != 0)
@@ -40,7 +41,7 @@ namespace NotepadSharp
                 MainTextField.SelectionStart = settings.Cursorpos;
             }
         }
-        public static void firsttime(RichTextBox MainTextField)
+        public static void firsttime(Scintilla MainTextField)
         {
             UserSettings settings = new UserSettings();
             if (settings.firstloadflag == "yes")
@@ -49,13 +50,13 @@ namespace NotepadSharp
                 settings.firstloadflag = "no";
             }
         }
-        public static void zoomfactor(RichTextBox MainTextField)
+        public static void zoomfactor(Scintilla MainTextField)
         {
-            UserSettings settings = new UserSettings();
-            if (settings.Zoomfactor != 0)
-                MainTextField.ZoomFactor = settings.Zoomfactor;
+            //UserSettings settings = new UserSettings();
+            //if (settings.Zoomfactor != 0)
+                //MainTextField.ZoomFactor = settings.Zoomfactor;
         }
-        public static void loadprev(RichTextBox MainTextField, Form Form1)
+        public static void loadprev(Scintilla MainTextField, Form Form1)
         {
             UserSettings settings = new UserSettings();
             if (Program.Args0.Argspub != null)

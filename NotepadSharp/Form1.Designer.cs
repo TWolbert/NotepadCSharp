@@ -42,6 +42,7 @@
             this.tsmR4 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmR5 = new System.Windows.Forms.ToolStripMenuItem();
             this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createScintillaTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,9 +98,8 @@
             this.lblPos = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.MainTextField = new System.Windows.Forms.RichTextBox();
+            this.MainTextField = new ScintillaNET.Scintilla();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.sctb = new EasyScintilla.SimpleEditor();
             this.MenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -135,7 +135,8 @@
             this.newToolStripMenuItem,
             this.closeToolStripMenuItem,
             this.recentsToolStripMenuItem,
-            this.openFolderToolStripMenuItem});
+            this.openFolderToolStripMenuItem,
+            this.createScintillaTextBoxToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -144,7 +145,7 @@
             // 
             this.importToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("importToolStripMenuItem.Image")));
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.importToolStripMenuItem.Text = "Import";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.ImportKey_Click);
             // 
@@ -152,7 +153,7 @@
             // 
             this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -160,7 +161,7 @@
             // 
             this.closeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("closeToolStripMenuItem.Image")));
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -174,7 +175,7 @@
             this.tsmR5});
             this.recentsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("recentsToolStripMenuItem.Image")));
             this.recentsToolStripMenuItem.Name = "recentsToolStripMenuItem";
-            this.recentsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.recentsToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.recentsToolStripMenuItem.Text = "Recents";
             // 
             // tsmR1
@@ -216,9 +217,16 @@
             // 
             this.openFolderToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openFolderToolStripMenuItem.Image")));
             this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
             this.openFolderToolStripMenuItem.Text = "Open Folder";
             this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
+            // 
+            // createScintillaTextBoxToolStripMenuItem
+            // 
+            this.createScintillaTextBoxToolStripMenuItem.Name = "createScintillaTextBoxToolStripMenuItem";
+            this.createScintillaTextBoxToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.createScintillaTextBoxToolStripMenuItem.Text = "Create Scintilla TextBox";
+            this.createScintillaTextBoxToolStripMenuItem.Click += new System.EventHandler(this.createScintillaTextBoxToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -278,8 +286,9 @@
             // 
             // replaceInSelectionToolStripMenuItem
             // 
+            this.replaceInSelectionToolStripMenuItem.Enabled = false;
             this.replaceInSelectionToolStripMenuItem.Name = "replaceInSelectionToolStripMenuItem";
-            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.replaceInSelectionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.replaceInSelectionToolStripMenuItem.Text = "Replace in selection";
             this.replaceInSelectionToolStripMenuItem.Click += new System.EventHandler(this.replaceInSelectionToolStripMenuItem_Click);
             // 
@@ -484,6 +493,7 @@
             this.pxToolStripMenuItem2,
             this.pxToolStripMenuItem3,
             this.setFontTypeToolStripMenuItem});
+            this.fontsizeToolStripMenuItem.Enabled = false;
             this.fontsizeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fontsizeToolStripMenuItem.Image")));
             this.fontsizeToolStripMenuItem.Name = "fontsizeToolStripMenuItem";
             this.fontsizeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
@@ -491,50 +501,57 @@
             // 
             // toolStripMenuItem1
             // 
+            this.toolStripMenuItem1.Enabled = false;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "8px";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // pxToolStripMenuItem
             // 
+            this.pxToolStripMenuItem.Enabled = false;
             this.pxToolStripMenuItem.Name = "pxToolStripMenuItem";
-            this.pxToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.pxToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pxToolStripMenuItem.Text = "16px";
             this.pxToolStripMenuItem.Click += new System.EventHandler(this.pxToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
+            this.toolStripMenuItem2.Enabled = false;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "18px";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // pxToolStripMenuItem1
             // 
+            this.pxToolStripMenuItem1.Enabled = false;
             this.pxToolStripMenuItem1.Name = "pxToolStripMenuItem1";
-            this.pxToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
+            this.pxToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.pxToolStripMenuItem1.Text = "20px";
             this.pxToolStripMenuItem1.Click += new System.EventHandler(this.pxToolStripMenuItem1_Click);
             // 
             // pxToolStripMenuItem2
             // 
+            this.pxToolStripMenuItem2.Enabled = false;
             this.pxToolStripMenuItem2.Name = "pxToolStripMenuItem2";
-            this.pxToolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
+            this.pxToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.pxToolStripMenuItem2.Text = "22px";
             this.pxToolStripMenuItem2.Click += new System.EventHandler(this.pxToolStripMenuItem2_Click);
             // 
             // pxToolStripMenuItem3
             // 
+            this.pxToolStripMenuItem3.Enabled = false;
             this.pxToolStripMenuItem3.Name = "pxToolStripMenuItem3";
-            this.pxToolStripMenuItem3.Size = new System.Drawing.Size(136, 22);
+            this.pxToolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
             this.pxToolStripMenuItem3.Text = "24px";
             this.pxToolStripMenuItem3.Click += new System.EventHandler(this.pxToolStripMenuItem3_Click);
             // 
             // setFontTypeToolStripMenuItem
             // 
+            this.setFontTypeToolStripMenuItem.Enabled = false;
             this.setFontTypeToolStripMenuItem.Name = "setFontTypeToolStripMenuItem";
-            this.setFontTypeToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.setFontTypeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setFontTypeToolStripMenuItem.Text = "Set font type";
             this.setFontTypeToolStripMenuItem.Click += new System.EventHandler(this.setFontTypeToolStripMenuItem_Click);
             // 
@@ -566,11 +583,11 @@
             // 
             // wordwrapoffToolStripMenuItem
             // 
+            this.wordwrapoffToolStripMenuItem.Enabled = false;
             this.wordwrapoffToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("wordwrapoffToolStripMenuItem.Image")));
             this.wordwrapoffToolStripMenuItem.Name = "wordwrapoffToolStripMenuItem";
             this.wordwrapoffToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.wordwrapoffToolStripMenuItem.Text = "Wordwrap (off)";
-            this.wordwrapoffToolStripMenuItem.Click += new System.EventHandler(this.wordwrapoffToolStripMenuItem_Click);
             // 
             // alwaysOnTopoffToolStripMenuItem
             // 
@@ -695,7 +712,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.sctb);
             this.tabPage1.Controls.Add(this.MainTextField);
             this.tabPage1.Location = new System.Drawing.Point(4, 23);
             this.tabPage1.Name = "tabPage1";
@@ -707,20 +723,17 @@
             // 
             // MainTextField
             // 
-            this.MainTextField.AcceptsTab = true;
-            this.MainTextField.AccessibleRole = System.Windows.Forms.AccessibleRole.Text;
+            this.MainTextField.AllowDrop = true;
             this.MainTextField.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MainTextField.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainTextField.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainTextField.IndentationGuides = ScintillaNET.IndentView.LookBoth;
+            this.MainTextField.Lexer = ScintillaNET.Lexer.Python;
             this.MainTextField.Location = new System.Drawing.Point(3, 3);
             this.MainTextField.Name = "MainTextField";
+            this.MainTextField.ScrollWidth = 1;
             this.MainTextField.Size = new System.Drawing.Size(1178, 502);
-            this.MainTextField.TabIndex = 3;
-            this.MainTextField.Text = "";
-            this.MainTextField.WordWrap = false;
-            this.MainTextField.SelectionChanged += new System.EventHandler(this.MainTextField_SelectionChanged);
-            this.MainTextField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainTextField_MouseClick);
-            this.MainTextField.TextChanged += new System.EventHandler(this.MainTextField_TextChanged_1);
+            this.MainTextField.TabIndex = 4;
+            this.MainTextField.UseTabs = true;
             // 
             // tabControl1
             // 
@@ -736,15 +749,6 @@
             this.tabControl1.TabIndex = 9;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
-            // 
-            // sctb
-            // 
-            this.sctb.Location = new System.Drawing.Point(246, 157);
-            this.sctb.Name = "sctb";
-            this.sctb.Size = new System.Drawing.Size(200, 100);
-            this.sctb.Styler = null;
-            this.sctb.TabIndex = 4;
-            this.sctb.Text = "simpleEditor1";
             // 
             // Form1
             // 
@@ -839,11 +843,11 @@
         private System.Windows.Forms.ToolStripMenuItem unicodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uTF32ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.RichTextBox MainTextField;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ToolStripMenuItem removeCurrentTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setFontTypeToolStripMenuItem;
-        private EasyScintilla.SimpleEditor sctb;
+        private ScintillaNET.Scintilla MainTextField;
+        private System.Windows.Forms.ToolStripMenuItem createScintillaTextBoxToolStripMenuItem;
     }
 }
 

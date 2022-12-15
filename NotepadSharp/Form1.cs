@@ -12,6 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
+using ScintillaNET;
 
 namespace NotepadSharp
 {
@@ -35,7 +36,7 @@ namespace NotepadSharp
             var backcolor = MainTextField.BackColor;
             var forecolor = MainTextField.ForeColor;
             TabPage tp = new TabPage();
-            RichTextBox rtb = new RichTextBox();
+            Scintilla rtb = new Scintilla();
             tabControl1.TabPages.Add(tp);
             tp.Controls.Add(rtb);
             rtb.Name = "MainTextField";
@@ -43,10 +44,12 @@ namespace NotepadSharp
             rtb.Dock = DockStyle.Fill;
             rtb.AllowDrop = true;
             rtb.BackColor = backcolor; rtb.ForeColor = forecolor;
-            rtb.TextChanged += MainTextField_TextChanged_1;
-            rtb.DragDrop += MainTextField_DragDrop;
-            rtb.SelectionChanged += MainTextField_SelectionChanged;
+            rtb.TextChanged += (this.OnTextChanged);
+            rtb.WrapMode = WrapMode.None;
+            rtb.IndentationGuides = IndentView.LookBoth;
             tabControl1.SelectedIndex = tabControl1.TabPages.IndexOf(tp);
+
+
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
@@ -65,7 +68,7 @@ namespace NotepadSharp
                     using (StreamReader reader = new StreamReader(fileStream))
                     {
                         fileContent = reader.ReadToEnd();
-                        Task.Factory.StartNew(() => writefiletotb(fileContent, rtb, tp));
+                        writefiletotb(fileContent, rtb, tp);
                     }
                 }
             }
@@ -73,40 +76,11 @@ namespace NotepadSharp
             {
                 this.Text = filePath;
                 tp.Text = filePath;
-                if (Text.Contains(".py"))
-                {
-                    rtb.TextChanged += syntaxhighlightpy;
-                }
                 if (Text.Contains(".c"))
                 {
-                    if (!Text.Contains(".cpp"))
-                    {
-                        if (!Text.Contains(".cs"))
-                        {
-                            rtb.TextChanged += syntaxhighlightc;
-                        }
-                    }
-
-                }
-                if (Text.Contains(".cs"))
-                {
-                    rtb.TextChanged += syntaxhighlightcs;
-                }
-                if (Text.Contains(".html"))
-                {
-                    rtb.TextChanged += syntaxhighlightHTML;
-                }
-                if (Text.Contains(".cpp"))
-                {
-                    rtb.TextChanged += syntaxhighlightcpp;
-                }
-                if (Text.Contains(".js"))
-                {
-                    rtb.TextChanged += syntaxhighlightjs;
-                }
-                if (Text.Contains(".asm"))
-                {
-                    rtb.TextChanged += syntaxhighlightasm;
+                    InitColors();
+                    InitSyntaxColoringCPPCSC();
+                    rtb.TextChanged += MainTextField_TextChanged_1;
                 }
                 if (isPhoto())
                 {
@@ -154,9 +128,9 @@ namespace NotepadSharp
                 tabControl1.TabPages.RemoveAt(0);
             }
         }
-        void syntaxhighlightasm(object sender, EventArgs e)
+        /*void syntaxhighlightasm(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            sc tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
             // getting keywords/functions
             string keywords = @"\b(lds|les|lfs|lgs|lss|pop|push|in|ins|out|outs|lahf|sahf|popf|pushf|cmc|clc|stc|cli|sti|cld|std|add|adc|sub|sbb|cmp|inc|dec|test|sal|shl|sar|shr|shld|shrd|not|neg|bound|and|or|xor|imul|mul|div|idiv|cbtw|cwtl|cwtd|cltd|daa|das|aaa|aas|aam|aad|wait|fwait|movs|cmps|stos|lods|scas|xlat|rep|repnz|repz|lcall|call|ret|lret|enter|leave|jcxz|loop|loopnz|loopz|jmp|ljmp|int|into|iret|sldt|str|lldt|ltr|verr|verw|sgdt|sidt|lgdt|lidt|smsw|lmsw|lar|lsl|clts|arpl|bsf|bsr|bt|btc|btr|bts|cmpxchg|fsin|fcos|fsincos|fld|fldcw|fldenv|fprem|fucom|fucomp|fucompp|lea|mov|movw|movsx|movzb|popa|pusha|rcl|rcr|rol|ror|setcc|bswap|xadd|xchg|wbinvd|invd|invlpg|lock|nop|hlt|fld|fst|fstp|fxch|fild|fist|fistp|fbld|fbstp|fadd|faddp|fiadd|fsub|fsubp|fsubr|fsubrp|fisubrp|fisubr|fmul|fmulp|fimul|fdiv|fdivp|fdivr|fdivrp|fidiv|fidivr|fsqrt|fscale|fprem|frndint|fxtract|fabs|fchs|fcom|fcomp|fcompp|ficom|ficomp|fyl2x|fyl2xp1|fldl2e|fldl2t|fldlg2|fldln2|fldpi|fldz|finit|fnint|fnop|fsave|fnsave|fstew|fnstew|fstenv|fnstenv|fstsw|fnstsw|frstor|fwait|wait|fclex|fnclex|fdecstp|ffree|fincstp)\b";
             MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
@@ -671,8 +645,8 @@ namespace NotepadSharp
 
             // giving back the focus
             tb.Focus();
-        }
-        void writefiletotb(string fileContent, RichTextBox rtb, TabPage tb)
+        }*/
+        void writefiletotb(string fileContent, Scintilla rtb, TabPage tb)
         {
             rtb.Text = fileContent;
             Text = Text.Replace(" - Unsaved", "");
@@ -694,7 +668,7 @@ namespace NotepadSharp
         }
         private void edittextforfolder(string path)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             MessageBox.Show(path);
             tb.Text = File.ReadAllText(path);
             this.Text = path;
@@ -703,7 +677,7 @@ namespace NotepadSharp
         private static void saveEncoded(Encoding encoding, string filename)
         {
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            RichTextBox tb = (RichTextBox)f1.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)f1.Controls["MainTextField"];
             StreamWriter streamWriter = new StreamWriter(filename, false, encoding);
             streamWriter.WriteLine(tb.Text);
             streamWriter.Close();
@@ -711,7 +685,7 @@ namespace NotepadSharp
         }
         public void savefile()
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (this.Text.Length != 0 && this.Text.Contains("\\"))
             {
                 this.Text = this.Text.Replace(" - Unsaved", "");
@@ -768,7 +742,7 @@ namespace NotepadSharp
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
@@ -786,11 +760,16 @@ namespace NotepadSharp
             }
             this.Text = saveFileDialog1.FileName;
             currenttab.selectedtabpage.Text = Text;
+            if (Text.Contains(".c"))
+            {
+                InitColors();
+                InitSyntaxColoringCPPCSC();
+            }
         }
         void changefontsize(int value)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            tb.Font = new Font("Arial", value, FontStyle.Regular);
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            tb.Styles[Style.Default].SizeF = value;
         }
         private void pxToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -830,14 +809,8 @@ namespace NotepadSharp
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            if (Clipboard.ContainsText(TextDataFormat.Text))
-            {
-                string clipboardText = Clipboard.GetText(TextDataFormat.Text);
-                tb.Text += clipboardText;
-                tb.SelectionStart = tb.Text.Length;
-                tb.SelectionLength = 0;
-            }
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            tb.Paste();
         }
 
         private void gotoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -846,15 +819,14 @@ namespace NotepadSharp
         }
         void findtextstring()
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             string search = Microsoft.VisualBasic.Interaction.InputBox("Please enter the string you are looking for.", "Find", "");
-            int index = tb.Text.IndexOf(search);
-            tb.SelectionStart = index + search.Length;
-            tb.Select(index, search.Length);
-            tb.SelectionBackColor = Color.Red;
-            wait(2000);
-            tb.SelectionBackColor = tb.BackColor;
-            tb.DeselectAll();
+            tb.TargetStart = 0;
+            tb.TargetEnd = tb.TextLength;
+            tb.SearchFlags = SearchFlags.None;
+            int index = tb.SearchInTarget(search);
+            tb.SelectionStart = index;
+            tb.SelectionEnd = index + search.Length;
         }
         public void wait(int milliseconds)
         {
@@ -888,7 +860,7 @@ namespace NotepadSharp
 
         private void timeAndDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             DateTime now = DateTime.Now;
             Clipboard.SetText(now.ToString());
             tb.Paste();
@@ -896,7 +868,7 @@ namespace NotepadSharp
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             var sfile = this.Text;
             File.Delete(sfile);
             tb.Text = "";
@@ -907,14 +879,13 @@ namespace NotepadSharp
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (this.Text.Contains(" - Unsaved"))
             {
                 Text = this.Text.Replace(" - Unsaved", "");
             }
             settings.Prevfile = this.Text;
             settings.Theme = themes.ToString();
-            settings.Zoomfactor = tb.ZoomFactor;
             settings.Cursorpos = tb.SelectionStart;
             settings.firstloadflag = "no";
             settings.Save();
@@ -927,7 +898,7 @@ namespace NotepadSharp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             currenttab.selectedtabpage = tabControl1.SelectedTab;
             // Init code 
             StartupScripts startupScripts = new StartupScripts();
@@ -979,18 +950,20 @@ namespace NotepadSharp
 
         private void replaceInSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            // Rewriting this later 
+
+            /*Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             // New code written by evil twin and definitely not written by an AI
             string title = Text;
             string search = Interaction.InputBox("What words do you want to replace?", "Replace selection", "");
             string replace = Interaction.InputBox("What do you want to replace those with?", "Replace selection", "");
             tb.SelectedText = tb.SelectedText.Replace(search, replace);
-            this.Text = title;
+            this.Text = title;*/
         }
 
         private void replaceAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             string title = Text;
             string search = Microsoft.VisualBasic.Interaction.InputBox("What words do you want to replace?", "Replace all", "");
             string destroy = Microsoft.VisualBasic.Interaction.InputBox("What do you want to replace those with?", "Replace all", "");
@@ -1003,16 +976,16 @@ namespace NotepadSharp
         int themes = 2;
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            tb.BackColor = ColorTranslator.FromHtml("#212121");
-            tb.ForeColor = Color.White;
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            tb.Styles[Style.Default].BackColor = ColorTranslator.FromHtml("#212121");
+            tb.Styles[Style.Default].ForeColor = Color.Blue;
             for (int i = 0; i < tabControl1.TabPages.Count; i++)
             {
                 tabControl1.TabPages[i].BackColor = Color.Black;
                 tabControl1.TabPages[i].ForeColor = Color.White;
             }
-            panel1.BackColor = tb.BackColor;
-            panel1.ForeColor = tb.BackColor;
+            panel1.BackColor = Color.Black;
+            panel1.ForeColor = Color.White;
             this.BackColor = Color.Black;
             MenuStrip.BackColor = Color.Black;
             MenuStrip.ForeColor = Color.White;
@@ -1029,16 +1002,16 @@ namespace NotepadSharp
 
         private void lightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            tb.BackColor = Color.White;
-            tb.ForeColor = Color.Black;
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            tb.Styles[Style.Default].BackColor = Color.White;
+            tb.Styles[Style.Default].ForeColor = Color.Black;
             for (int i = 0; i < tabControl1.TabPages.Count; i++)
             {
                 tabControl1.TabPages[i].BackColor = Color.White;
                 tabControl1.TabPages[i].ForeColor = Color.Black;
             }
-            panel1.BackColor = tb.BackColor;
-            panel1.ForeColor = tb.BackColor;
+            panel1.BackColor = Color.White;
+            panel1.ForeColor = Color.Black;
             this.BackColor = Color.White;
             MenuStrip.BackColor = SystemColors.Control;
             MenuStrip.ForeColor = Color.Black;
@@ -1063,10 +1036,12 @@ namespace NotepadSharp
 
         }
 
-        private void wordwrapoffToolStripMenuItem_Click(object sender, EventArgs e)
+        // I'll readd wordwarp later tbf
+
+        /*private void wordwrapoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            if (tb.WordWrap)
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            if (tb.Styles[Style.Default].w)
             {
                 tb.WordWrap = false;
                 wordwrapoffToolStripMenuItem.Text = "Wordwrap (off)";
@@ -1076,7 +1051,7 @@ namespace NotepadSharp
                 tb.WordWrap = true;
                 wordwrapoffToolStripMenuItem.Text = "Wordwrap (on)";
             }
-        }
+        }*/
         private void alwaysOnTopoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!TopMost)
@@ -1100,20 +1075,20 @@ namespace NotepadSharp
             int i;
             String s;
             // Get the currently selected tab
-            RichTextBox Main = (RichTextBox) currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla Main = (Scintilla) currenttab.selectedtabpage.Controls["MainTextField"];
             // Get start position to drop the text.  
             i = Main.SelectionStart;
             s = Main.Text.Substring(i);
             Main.Text = Main.Text.Substring(0, i);
 
-            // Drop the text on to the RichTextBox.  
+            // Drop the text on to the Scintilla.  
             Main.Text += e.Data.GetData(DataFormats.Text).ToString();
             Main.Text += s;
         }
 
         private void MainTextField_TextChanged_1(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox) currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla) currenttab.selectedtabpage.Controls["MainTextField"];
             lblLength.Text = "Length: " + tb.Text.Length.ToString();
             string[] textboxw = tb.Text.Split(' ');
             lblWords.Text = "Words:" + textboxw.Length.ToString();
@@ -1123,7 +1098,7 @@ namespace NotepadSharp
 
         private void insertRegexToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             string inputs = Microsoft.VisualBasic.Interaction.InputBox("Please enter your desired regex string", "Regex", "");
             if (tb.Text.Length > 10000)
             {
@@ -1135,7 +1110,7 @@ namespace NotepadSharp
         }
         private void regexexecute(string regexinput)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (regexinput.Length != 0)
             {
                 // Dit werkt maar t was niet leuk ngl
@@ -1152,8 +1127,7 @@ namespace NotepadSharp
         private void Zoomfactorchange_Tick(object sender, EventArgs e)
         {
             currenttab.selectedtabpage = tabControl1.SelectedTab;
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
-            lblZoom.Text = "Zoomfactor: " + tb.ZoomFactor.ToString() + "x";
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (Text.Contains(".py"))
             {
                 asPythonToolStripMenuItem.Visible = true;
@@ -1168,7 +1142,7 @@ namespace NotepadSharp
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (Text.Contains(" - Unsaved") && tb.Text.Length != 0)
             {
                 DialogResult dialogResult = MessageBox.Show("You have unsaved changes, do you wish to save them and create a new file?", "Warning", MessageBoxButtons.YesNo);
@@ -1199,7 +1173,7 @@ namespace NotepadSharp
             var backcolor = MainTextField.BackColor;
             var forecolor = MainTextField.ForeColor;
             TabPage tp = new TabPage();
-            RichTextBox rtb = new RichTextBox();
+            Scintilla rtb = new Scintilla();
             tabControl1.TabPages.Add(tp);
             tp.Controls.Add(rtb);
             rtb.Name = "MainTextField";
@@ -1207,9 +1181,9 @@ namespace NotepadSharp
             rtb.Dock = DockStyle.Fill;
             rtb.AllowDrop = true;
             rtb.BackColor = backcolor; rtb.ForeColor = forecolor;
-            rtb.TextChanged += MainTextField_TextChanged_1;
-            rtb.DragDrop += MainTextField_DragDrop;
-            rtb.SelectionChanged += MainTextField_SelectionChanged;
+            rtb.TextChanged += (this.OnTextChanged);
+            rtb.WrapMode = WrapMode.None;
+            rtb.IndentationGuides = IndentView.LookBoth;
             tabControl1.SelectedIndex = tabControl1.TabPages.IndexOf(tp);
             tp.Text = "Untitled";
             Text = tp.Text;
@@ -1217,7 +1191,7 @@ namespace NotepadSharp
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (Text.Contains(" - Unsaved"))
             {
                 DialogResult dialogResult = MessageBox.Show("You have unsaved changes, do you wish to save and exit?", "Warning", MessageBoxButtons.YesNo);
@@ -1240,9 +1214,7 @@ namespace NotepadSharp
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            sctb.Enabled = true;
-            sctb.LexerLanguage = "Python";
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             StartupScripts.firsttime(tb);
             StartupScripts.zoomfactor(tb);
             StartupScripts.loadprev(tb, this);
@@ -1265,34 +1237,12 @@ namespace NotepadSharp
             }
             wait(50);
             var rtb = tb;
-            if (currenttab.selectedtabpage.Text.Contains(".py"))
+            if (currenttab.selectedtabpage.Text.Contains(".c"))
             {
-                rtb.TextChanged += syntaxhighlightpy;
+                InitSyntaxColoringCPPCSC();
+                InitColors();
             }
-            if (currenttab.selectedtabpage.Text.Contains(".cs"))
-            {
-                rtb.TextChanged += syntaxhighlightcs;
-            }
-            if (currenttab.selectedtabpage.Text.Contains(".html"))
-            {
-                rtb.TextChanged += syntaxhighlightHTML;
-            }
-            if (currenttab.selectedtabpage.Text.Contains(".cpp"))
-            {
-                rtb.TextChanged += syntaxhighlightcpp;
-            }
-            if (currenttab.selectedtabpage.Text.Contains(".js"))
-            {
-                rtb.TextChanged += syntaxhighlightjs;
-            }
-            if (currenttab.selectedtabpage.Text.Contains(".asm"))
-            {
-                rtb.TextChanged += syntaxhighlightasm;
-            }
-            if (currenttab.selectedtabpage.Text.Contains(".c") && !currenttab.selectedtabpage.Text.Contains(".cpp") && !currenttab.selectedtabpage.Text.Contains(".cs"))
-            {
-                rtb.TextChanged += syntaxhighlightc;
-            }
+           
             rtb.Text += "";
         }
 
@@ -1312,7 +1262,7 @@ namespace NotepadSharp
         }
         private void openrecentfile(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             if (Text.Contains(" - Unsaved"))
             {
                 DialogResult dialogResult = MessageBox.Show("You have unsaved changes, do you wish to save and open a new file?", "Warning", MessageBoxButtons.YesNo);
@@ -1341,13 +1291,13 @@ namespace NotepadSharp
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             tb.SelectAll();
         }
 
         private void MenuStrip_BackColorChanged(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             foreach (var stripitem in Controls.OfType<ToolStripMenuItem>())
             {
                 stripitem.BackColor = MenuStrip.BackColor;
@@ -1367,13 +1317,13 @@ namespace NotepadSharp
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             tb.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             tb.Redo();
         }
 
@@ -1467,6 +1417,125 @@ namespace NotepadSharp
             Font_selector bp = new Font_selector();
             bp.TopMost = true;
             bp.Show();
+        }
+        ScintillaNET.Scintilla TextArea;
+        private void createScintillaTextBoxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TabPage tp = new TabPage();
+            tabControl1.TabPages.Add(tp);
+            TextArea = new ScintillaNET.Scintilla();
+            tp.Controls.Add(TextArea);
+
+            TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            TextArea.TextChanged += (this.OnTextChanged);
+
+            TextArea.WrapMode = WrapMode.None;
+            TextArea.IndentationGuides = IndentView.LookBoth;
+
+            InitColors();
+        }
+        public static Color IntToColor(int rgb)
+        {
+            return Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
+        }
+        private void InitSyntaxColoringCPPCSC()
+        {
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            // Configure the default style
+            tb.StyleResetDefault();
+            tb.Styles[Style.Default].Size = 10;
+            if (settings.Theme == "1")
+            {
+                tb.Styles[Style.Default].BackColor = IntToColor(0x212121);
+                tb.Styles[Style.Default].ForeColor = IntToColor(0xFFFFFF);
+            }
+            else
+            {
+                tb.Styles[Style.Default].BackColor = Color.White;
+                tb.Styles[Style.Default].ForeColor = Color.Black;
+            }
+
+            tb.StyleClearAll();
+
+            // Configure the CPP (C#) lexer styles
+            if (settings.Theme == "1")
+            {
+                tb.Styles[Style.Cpp.Identifier].ForeColor = IntToColor(0xD0DAE2);
+            }
+            else
+            {
+                tb.Styles[Style.Cpp.Identifier].ForeColor = Color.Black;
+            }
+            tb.Styles[Style.Cpp.Comment].ForeColor = IntToColor(0xBD758B);
+            tb.Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x40BF57);
+            tb.Styles[Style.Cpp.CommentDoc].ForeColor = IntToColor(0x2FAE35);
+            tb.Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFFFF00);
+            tb.Styles[Style.Cpp.String].ForeColor = IntToColor(0xFFFF00);
+            tb.Styles[Style.Cpp.Character].ForeColor = IntToColor(0xE95454);
+            tb.Styles[Style.Cpp.Preprocessor].ForeColor = IntToColor(0x8AAFEE);
+            tb.Styles[Style.Cpp.Operator].ForeColor = IntToColor(0xE0E0E0);
+            tb.Styles[Style.Cpp.Regex].ForeColor = IntToColor(0xff00ff);
+            tb.Styles[Style.Cpp.CommentLineDoc].ForeColor = IntToColor(0x77A7DB);
+            tb.Styles[Style.Cpp.Word].ForeColor = IntToColor(0x48A8EE);
+            tb.Styles[Style.Cpp.Word2].ForeColor = IntToColor(0xF98906);
+            tb.Styles[Style.Cpp.CommentDocKeyword].ForeColor = IntToColor(0xB3D991);
+            tb.Styles[Style.Cpp.CommentDocKeywordError].ForeColor = IntToColor(0xFF0000);
+            tb.Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
+
+            tb.Lexer = Lexer.Cpp;
+
+            tb.SetKeywords(0, "class extends implements import interface new case do while else if for in switch throw get set function var try catch finally while with default break continue delete return each const namespace package include use is as instanceof typeof author copy default deprecated eventType example exampleText exception haxe inheritDoc internal link mtasc mxmlc param private return see serial serialData serialField since throws usage version langversion playerversion productversion dynamic private public partial static intrinsic internal native override protected AS3 final super this arguments null Infinity NaN undefined true false abstract as base bool break by byte case catch char checked class const continue decimal default delegate do double descending explicit event extern else enum false finally fixed float for foreach from goto group if implicit in int interface internal into is lock long new null namespace object operator out override orderby params private protected public readonly ref return switch struct sbyte sealed short sizeof stackalloc static string select this throw true try typeof uint ulong unchecked unsafe ushort using var virtual volatile void while where yield");
+            tb.SetKeywords(1, "void Null ArgumentError arguments Array Boolean Class Date DefinitionError Error EvalError Function int Math Namespace Number Object RangeError ReferenceError RegExp SecurityError String SyntaxError TypeError uint XML XMLList Boolean Byte Char DateTime Decimal Double Int16 Int32 Int64 IntPtr SByte Single UInt16 UInt32 UInt64 UIntPtr Void Path File System Windows Forms ScintillaNET");
+
+        }
+        private void InitColors()
+        {
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
+            tb.SetSelectionBackColor(true, IntToColor(0x114D9C));
+        }
+
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+
+        }
+        public void InitDragDropFile()
+        {
+
+            TextArea.AllowDrop = true;
+            TextArea.DragEnter += delegate (object sender, DragEventArgs e) {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.None;
+            };
+            TextArea.DragDrop += delegate (object sender, DragEventArgs e) {
+
+                // get file drop
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+
+                    Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
+                    if (a != null)
+                    {
+
+                        string path = a.GetValue(0).ToString();
+
+                        LoadDataFromFile(path);
+
+                    }
+                }
+            };
+
+        }
+
+        private void LoadDataFromFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                Text = Path.GetFileName(path);
+                currenttab.selectedtabpage.Text = Path.GetFileName(path);
+                TextArea.Text = File.ReadAllText(path);
+            }
         }
     }
 }   

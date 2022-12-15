@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScintillaNET;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,7 +24,7 @@ namespace NotepadSharp
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Form1 f1 = (Form1)Application.OpenForms["Form1"];
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
 
             string textofselect = listBox1.Items[listBox1.SelectedIndex].ToString();
 

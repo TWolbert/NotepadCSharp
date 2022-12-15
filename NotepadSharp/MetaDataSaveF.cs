@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.VisualBasic;
 using DSOFile;
 using static NotepadSharp.Form1;
+using ScintillaNET;
 
 namespace NotepadSharp
 {
@@ -18,15 +19,15 @@ namespace NotepadSharp
     {
         class maintext
         {
-            public static RichTextBox textbox;
+            public static Scintilla textbox;
         }
         public MetaDataSaveF()
         {
             InitializeComponent();
         }
-        public static void swm(RichTextBox MainTextField)
+        public static void swm(Scintilla MainTextField)
         {
-            RichTextBox tb = (RichTextBox)currenttab.selectedtabpage.Controls["MainTextField"];
+            Scintilla tb = (Scintilla)currenttab.selectedtabpage.Controls["MainTextField"];
             maintext.textbox = tb;
             Form newthis = new MetaDataSaveF();
             newthis.Show();
