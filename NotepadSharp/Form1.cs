@@ -77,6 +77,17 @@ namespace NotepadSharp
                 {
                     rtb.TextChanged += syntaxhighlightpy;
                 }
+                if (Text.Contains(".c"))
+                {
+                    if (!Text.Contains(".cpp"))
+                    {
+                        if (!Text.Contains(".cs"))
+                        {
+                            rtb.TextChanged += syntaxhighlightc;
+                        }
+                    }
+
+                }
                 if (Text.Contains(".cs"))
                 {
                     rtb.TextChanged += syntaxhighlightcs;
@@ -91,15 +102,11 @@ namespace NotepadSharp
                 }
                 if (Text.Contains(".js"))
                 {
-                    rtb.TextChanged += syntaxhighlightcs;
+                    rtb.TextChanged += syntaxhighlightjs;
                 }
                 if (Text.Contains(".asm"))
                 {
                     rtb.TextChanged += syntaxhighlightasm;
-                }
-                if (Text.Contains(".c") && !Text.Contains(".cpp") && !Text.Contains(".cs"))
-                {
-                    rtb.TextChanged += syntaxhighlightc;
                 }
                 if (isPhoto())
                 {
@@ -294,8 +301,11 @@ namespace NotepadSharp
             string keywords = @"\b(public|private|partial|static|class|using|void|foreach|in|abstract|as|base|bool|break|byte|case|catch|char|checked|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|goto|if|implicit|in|int|interface|internal|is|lock|long|new|null|object|operator|out|override|params|protected|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while)\b";
             MatchCollection keywordMatches = Regex.Matches(tb.Text, keywords);
 
+            string subtypes = @"\b(ReadLine|WriteLine|Write|ReadKey|Beep|Clear|Equals|MoveBufferArea|OpenStandardError|OpenStandardInput|OpenStandardOutput|Read|ReferenceEquals|ResetColor|SetBufferSize|SetCursorPosistion|SetError|SetIn|SetOut|SetWindowPosition|SetWindowSize)\b";
+            MatchCollection subtypematches = Regex.Matches(tb.Text, subtypes);
+
             // getting types/classes from the text 
-            string types = @"\b(Console|Form|namespace)\b";
+            string types = @"\b(Console|Form|namespace|Main)\b";
             MatchCollection typeMatches = Regex.Matches(tb.Text, types);
 
             // getting comments (inline or multiline)
@@ -310,8 +320,6 @@ namespace NotepadSharp
             int originalIndex = tb.SelectionStart;
             int originalLength = tb.SelectionLength;
             Color originalColor = Color.Empty;
-
-
             // MANDATORY - focuses a label before highlighting (avoids blinking)
             MenuStrip.Focus();
 
@@ -328,13 +336,19 @@ namespace NotepadSharp
                 tb.SelectionColor = Color.Blue;
             }
 
+            foreach (Match m in subtypematches)
+            {
+                tb.SelectionStart = m.Index;
+                tb.SelectionLength = m.Length;
+                tb.SelectionColor = ColorTranslator.FromHtml("#A6E22E");
+            }
+
             foreach (Match m in typeMatches)
             {
                 tb.SelectionStart = m.Index;
                 tb.SelectionLength = m.Length;
-                tb.SelectionColor = Color.DarkCyan;
+                tb.SelectionColor = ColorTranslator.FromHtml("#66D9EF");
             }
-
             foreach (Match m in commentMatches)
             {
                 tb.SelectionStart = m.Index;
@@ -346,7 +360,7 @@ namespace NotepadSharp
             {
                 tb.SelectionStart = m.Index;
                 tb.SelectionLength = m.Length;
-                tb.SelectionColor = Color.Brown;
+                tb.SelectionColor = ColorTranslator.FromHtml("#E6DB74");
             }
 
             // restoring the original colors, for further writing
@@ -1252,7 +1266,7 @@ namespace NotepadSharp
             {
                 rtb.TextChanged += syntaxhighlightasm;
             }
-            if (currenttab.selectedtabpage.Text.Contains(".c") && !currenttab.selectedtabpage.Text.Contains(".cpp"))
+            if (currenttab.selectedtabpage.Text.Contains(".c") && !currenttab.selectedtabpage.Text.Contains(".cpp") && !currenttab.selectedtabpage.Text.Contains(".cs"))
             {
                 rtb.TextChanged += syntaxhighlightc;
             }
